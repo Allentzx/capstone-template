@@ -8,9 +8,9 @@ import HardSkillSelectBarReducer from "./HardSkillSelectBarReducer";
 import SoftSkillSelectBarReducer from "./SoftSkillSelectBarReducer";
 import PositionSelectBarReducer from "./PositionSelectBarReducer";
 import LanguageSelectBarReducer from "./LanguageSelectBarReducer";
-import SuggestCandidateList from "./SuggestCandidateList";
-import SuggestCandidateSelect from "./SuggestCandidateSelect"
-import SuggestCandidateSelectedListReducer from "./SuggestCandidateSelectedListReducer";
+// import SuggestCandidateList from "./SuggestCandidateList";
+// import SuggestCandidateSelect from "./SuggestCandidateSelect"
+// import SuggestCandidateSelectedListReducer from "./SuggestCandidateSelectedListReducer";
 
 const MainReducer = combineReducers({
     authentication,
@@ -22,9 +22,9 @@ const MainReducer = combineReducers({
     SoftSkillSelectBarReducer,
     PositionSelectBarReducer,
     LanguageSelectBarReducer,
-    SuggestCandidateList,
-    SuggestCandidateSelect,
-    SuggestCandidateSelectedListReducer
+    // SuggestCandidateList,
+    // SuggestCandidateSelect,
+    // SuggestCandidateSelectedListReducer
 })
 
 export default MainReducer

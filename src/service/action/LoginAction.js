@@ -70,48 +70,62 @@ export const failure = (user) => {
     }
 }
 
-export const register = (username, email, password, doB, phoneNumber, address) => {
-    var user = { username: username, email: email, password: password, rememberMe: true }
+export const register = (address, phoneNumber, doB, userName, fullname, email, password,confirmPassword, identityNumber ) => {
+    var regist = {address: address.toString(), 
+        phoneNumber: phoneNumber, 
+        doB : doB, 
+        userName:userName, 
+        name: fullname, 
+        email:email, 
+        password:password,
+        confirmPassword:confirmPassword, 
+        identityNumber:identityNumber}
+    var url = `${API_URL}/User`
+    console.log(regist)
     return dispatch => {
-        dispatch(request(user))
-        axios.post(`${API_URL}/User/`, user).then(res => {
-            if (res.status === 200) {
-                localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
-                localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
-                dispatch(success(JSON.stringify(res.data.resultObj)))
-                history.push('/');
-            }
-        }).catch(err => {
-            dispatch(failure(err.toString()));
-            if (err.response.status === 500) {
-                store.addNotification({
-                    message: "Duplicate email or username",
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            } else {
-                store.addNotification({
-                    message: err.toString(),
-                    type: "danger",
-                    insert: "top",
-                    container: "top-center",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                })
-            }
+        dispatch(request(regist))
+        axios.post(
+            url,
+            regist,
+            { headers: { "Authorization": `Bearer ${JSON.parse(localStorage.getItem('token'))}` } }).then(res => {
+                if (res.status === 200) {
+                    localStorage.setItem('EMP', JSON.stringify(res.data.resultObj.empId));
+                    localStorage.setItem('token', JSON.stringify(res.data.resultObj.token));
+                    dispatch(success(JSON.stringify(res.data.resultObj)))
+                    history.push('/');
+                }
+            })
+        .catch(err => {
+                dispatch(failure(err.toString()));
+                if (err.response.status === 500) {
+                    store.addNotification({
+                        message: "Duplicate email or username",
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                } else {
+                    store.addNotification({
+                        message: err.toString(),
+                        type: "danger",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 2000,
+                            onScreen: false
+                        }
+                    })
+                }
 
-        })
+            })
     }
 }
 
@@ -134,9 +148,8 @@ export const registerFailure = (user) => {
         type: Type.REGISTER_FAILURE,
         user
     }
+
 }
-
-
 export const logout = () => {
     // localStorage.removeItem('token')
     // localStorage.removeItem('EMP')

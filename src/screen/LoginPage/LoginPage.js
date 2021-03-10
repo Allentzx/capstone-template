@@ -51,12 +51,12 @@ class Login extends Component {
                                         <fieldset className="form-group"> <label className="form-control-label text-muted">Username</label>
                                             <input type="text"
                                                 id="email" name="email"
-                                                placeholder="Phone no or email id"
+                                                placeholder=""
                                                 className="form-control"
                                                 onChange={this.handleChange}
                                             />
                                             {submitted && !email &&
-                                                <div className="help-block">Email is required</div>
+                                                <div className="help-block"></div>
                                             }
                                         </fieldset>
                                         <fieldset className="form-group">

@@ -25,12 +25,11 @@ const authentication = (state = initialState, action) => {
             }
         case Type.REGISTER_SUCCESS:
             return {
-                registering: false,
-                registered: true,
+                registering: true,
                 user: action.user
             }
         case Type.REGISTER_FAILURE:
-            return { ...state };
+            return {};
         default:
             return state
     }
