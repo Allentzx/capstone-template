@@ -27,6 +27,13 @@ class Login extends Component {
         }//ko nhan props logginIn
     }
 
+    componentDidMount() {
+        const user = localStorage.getItem('token') // your saved token in localstorage
+        if (user && user !== 'undefined') {            // check for not undefined
+            this.props.history.push('/')               // now you can redirect your desired route
+        }
+    }
+    
     render() {
         const { email, password, submitted } = this.state;
         return (
