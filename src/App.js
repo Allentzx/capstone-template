@@ -6,7 +6,7 @@ import LoginPage from './screen/LoginPage/LoginPage';
 import { history } from './service/helper/History';
 import { Route, Router } from 'react-router-dom';
 import { PrivateRoute } from './service/PrivateRouter';
-import Layout from './layout/Layout';
+import Layout from './Layout/Layout';
 import RouteList from './RouterMap'
 import SuggestCandidate from './screen/suggest-candidate/SuggestCandidate';
 
