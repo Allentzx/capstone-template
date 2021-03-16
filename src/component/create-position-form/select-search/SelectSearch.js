@@ -90,8 +90,14 @@ class SelectSearchs extends Component {
         var value = event[0].value
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
+    
+    onSelectLevel = event => {
+        var { positionFormIndex, levelIndex } = this.props
+        var value = event[0].value
+        this.props.onUpdateLevel(value, levelIndex, positionFormIndex)
+    }
 
-
+    // sửa onchange theo hàm
     showSelectBar = (name, list, value) => {
         switch (name) {
             case "positionID":
@@ -177,6 +183,24 @@ class SelectSearchs extends Component {
                         <Select className="select"
                             options={list}
                             onChange={this.onSelectCerti}
+                            values={[list.find(opt => opt.value === value)]}
+                            valueField="value"
+                            labelField="label"
+                        />
+                )
+            case 'levelID':
+                return (
+                    isNaN(value) || value === 0 ?
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguagePriority}
+                            valueField="value"
+                            labelField="label"
+                        />
+                        :
+                        <Select className="select"
+                            options={list}
+                            onChange={this.onSelectLanguagePriority}
                             values={[list.find(opt => opt.value === value)]}
                             valueField="value"
                             labelField="label"

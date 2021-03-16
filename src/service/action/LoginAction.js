@@ -15,7 +15,8 @@ export const login = (username, password) => {
                 dispatch(success(JSON.stringify(res.data.resultObj)))
                 history.push('/');
             }
-        }).catch(err => {
+        })
+    .catch(err => {
             dispatch(failure(err.toString()));
             if (err.response.status === 500) {
                 store.addNotification({

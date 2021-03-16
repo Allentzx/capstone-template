@@ -1,40 +1,36 @@
-import {Type} from "../constant/index";
+import { Type } from "../constant/index";
 
 var initState = [];
 
-const positionReducer = (state = initState, action) => {
+const positionUserReducer = (state = initState, action) => {
 
-    var positionObj, softSkill, hardSkill, hardSkillObj, languageClone = null
+    var positionObj, softSkill, hardSkill, hardSkillObj, languageClone, LevelObj = null
 
     switch (action.type) {
-
-        case Type.CREATE_PROJECT:
-            return [...state]
-
         //Position
-        case Type.ADD_POSITION_REQUIRE:
-            state.push(action.positionItem)
-            localStorage.setItem("isNewPosition", false)
-            return [...state]
-
-
-        case Type.DELETE_POSITION_REQUIRE:
-            state.splice(action.positionFormIndex, 1)
-            return [...state]
-
-
         case Type.UPDATE_POSITION_ID:
             positionObj = { ...state[action.positionFormIndex] }
             positionObj.posID = action.positionID
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
-
-        case Type.UPDATE_POSITION_NOC:
+        case Type.UPDATE_POSITION_LEVEL:
+            //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
-            positionObj.numberOfCandidates = parseInt(action.nOC)
+            //Clone list hard skill in positionObj
+            languageClone = positionObj.language.slice()
+            //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
+            languageDetail = { ...languageClone[action.languageIndex] }
+            //Change exp, proprity value in hardSkillObj
+            languageDetail.priority = action.value
+            //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
+            languageClone.splice(action.languageIndex, 1, languageDetail)
+            //Replace hard skill list in clone of position obj by clone of hard skill list
+            positionObj.language = languageClone
+            //Replace position obj in array at index by clone of position obj
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
+
 
         //Language
         case Type.ADD_LANGUAGE_REQUIRE:
@@ -47,9 +43,9 @@ const positionReducer = (state = initState, action) => {
 
         case Type.DELETE_LANGUAGE_REQUIRE:
             positionObj = { ...state[action.positionFormIndex] }
-            languageClone = positionObj.language.slice() 
-            languageClone.splice(action.languageIndex, 1) 
-            positionObj.language = languageClone 
+            languageClone = positionObj.language.slice()
+            languageClone.splice(action.languageIndex, 1)
+            positionObj.language = languageClone
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -58,6 +54,12 @@ const positionReducer = (state = initState, action) => {
             languageClone = positionObj.language.slice()
             languageClone.splice(action.languageIndex, 1, action.languageID)
             positionObj.language = languageClone
+            state.splice(action.positionFormIndex, 1, positionObj)
+            return [...state]
+
+        case Type.UPDATE_LANGUAGE_LEVEL:
+            languageClone = { ...state[action.positionFormIndex] }
+            languageClone.langLevel = parseInt(action.lgLevel)
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
@@ -106,28 +108,6 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
-
-        case Type.UPDATE_HARD_SKILL_EXP_PRIORITY:
-            //Clone position obj (positionObj) at index in array
-            positionObj = { ...state[action.positionFormIndex] }
-            //Clone list hard skill in positionObj
-            hardSkill = positionObj.hardSkills.slice()
-            //Clone hard skill detail Obj (hardSkillObj) at index in hard skill list 
-            hardSkillObj = hardSkill[action.hardSkillIndex]
-            //Change exp, proprity value in hardSkillObj
-            if (action.name === 'exp')
-                hardSkillObj.exp = parseInt(action.value)
-            else if (action.name === 'priority')
-                hardSkillObj.priority = parseInt(action.value)
-            //Replace hard skill detail Obj at index in clone of hard skill list by hardSkillObj
-            hardSkill.splice(action.hardSkillIndex, 1, hardSkillObj)
-            //Replace hard skill list in clone of position obj by clone of hard skill list
-            positionObj.hardSkills = hardSkill
-            //Replace position obj in array at index by clone of position obj
-            state.splice(action.positionFormIndex, 1, positionObj)
-            return [...state]
-
-
         case Type.UPDATE_HARD_SKILL_ID:
             //Clone position obj (positionObj) at index in array
             positionObj = { ...state[action.positionFormIndex] }
@@ -162,10 +142,11 @@ const positionReducer = (state = initState, action) => {
             state.splice(action.positionFormIndex, 1, positionObj)
             return [...state]
 
+        // hardSkill Level     
 
         default:
             return [...state]
     }
 }
 
-export default positionReducer;
+export default positionUserReducer;

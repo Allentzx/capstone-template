@@ -8,11 +8,9 @@ import { Route, Router } from 'react-router-dom';
 import { PrivateRoute } from './service/PrivateRouter';
 import Layout from './Layout/Layout';
 import RouteList from './RouterMap'
-
-
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
-import SuggestCandidate from './screen/suggest-candidate/SuggestCandidate';
+// import SuggestCandidate from './screen/suggest-candidate/SuggestCandidate';
 
 
 class App extends Component {

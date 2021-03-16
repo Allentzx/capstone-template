@@ -1,36 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import HardSkillForm from './hard-skill-form/HardSkillForm';
-import SelectSearch from './select-search/SelectSearch';
-import SoftSkillForm from './soft-skill-form/SoftSkillForm';
-import * as Action from "../../service/action/PositionSelectBarAction";
+import HardSkillForm from '../../component/create-position-form/hard-skill-form/HardSkillForm';
+import SoftSkillForm from '../../component/create-position-form/soft-skill-form/SoftSkillForm';
+import LanguageForm from '../../component/create-position-form/language-form/LanguageForm';
 import { convertPositionList } from "../../service/util/util";
-import LanguageForm from './language-form/LanguageForm';
+import SelectBar from '../../component/create-position-form/select-search/SelectBar';
 
-class CreatePositionForm extends Component {
+class AddUserPosForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isMinimize: false
         }
-    }
-    
-
-    componentDidMount = () => {
-        var { positionList } = this.props
-        if (typeof positionList === 'undefined' || positionList.length === 0) {
-            this.props.fetchPostionList()
-        }
-
-    }
-
-    convertPositionList = (positionList) => {
-        var result = []
-        positionList.forEach(element => {
-            result.push({ label: element.name, value: element.id })
-        });
-        return result;
     }
 
     onDeletePositionForm = (positionFormIndex) => {
@@ -53,8 +34,6 @@ class CreatePositionForm extends Component {
         })
     }
 
-
-
     render() {
         var { item, positionFormIndex, positionList } = this.props
         var listConverted = convertPositionList(positionList)
@@ -69,6 +48,7 @@ class CreatePositionForm extends Component {
                             onAddLanguage={this.props.onAddLanguage}
                             onDeleteLanguage={this.props.onDeleteLanguage}
                             onUpdateLanguageID={this.props.onUpdateLanguageID}
+                            onUpdateLanguagePriority={this.props.onUpdateLanguagePriority}
                         />
                         <SoftSkillForm softSkill={item.softSkillIDs}
                             positionFormIndex={positionFormIndex}
@@ -80,7 +60,8 @@ class CreatePositionForm extends Component {
                             positionFormIndex={positionFormIndex}
                             onAddHardSkill={this.props.onAddHardSkill}
                             onDeleteHardSkill={this.props.onDeleteHardSkill}
-                            updateHardSkillExpPriority={this.props.updateHardSkillExpPriority}
+                            updateHardSkillExp={this.props.updateHardSkillExp}
+                            onUpdateHardSkillPriority={this.props.onUpdateHardSkillPriority}
                             onUpdateHardSkillID={this.props.onUpdateHardSkillID}
                             onUpdateHardSkillCerti={this.props.onUpdateHardSkillCerti}
                         />
@@ -88,7 +69,7 @@ class CreatePositionForm extends Component {
                 )
         }
         return (
-            <div className="card mb-50">
+            <div className="card mb-50" style={{boxShadow:2}}>
                 <div className="card-body">
                     <div className="form-group">
                         <div className="row">
@@ -103,15 +84,17 @@ class CreatePositionForm extends Component {
 
                             {/* Select Bar */}
                             <div className="col-4">
-                                <SelectSearch list={listConverted}
+                                <SelectBar
+                                    list={listConverted}
                                     onUpdatePositionID={this.onUpdatePositionID}
                                     name="positionID"
                                     positionFormIndex={positionFormIndex}
-                                    value={item.posID} />
+                                    value={item.posID}
+                                />
                             </div>
 
                             {/* Number of candidate */}
-                            <div className="col-2 mt-15-ml-30 fr">
+                            <div className="col-2 mt">
                                 <label className="bmd-label ">
                                     <h4 className="font-weight-bold ">
                                         Number of candidate
@@ -139,17 +122,4 @@ class CreatePositionForm extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        positionList: state.PositionSelectBarReducer
-    }
-}
-
-const mapDispatchToProp = (dispatch, props) => {
-    return {
-        fetchPostionList: () => {
-            dispatch(Action.fetchPostionList())
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProp)(CreatePositionForm);
+export default AddUserPosForm;

@@ -48,6 +48,15 @@ export const convertPositionList = (list) => {
     return result;
 }
 
+
+export const convertLevelList = (list) => {
+    var result = []
+    list.forEach(element => {
+        result.push({ label: element.name, value: element.levelID })
+    });
+    return result;
+}
+
 export const convertSkillList = (list) => {
     var result = []
     list.forEach(element => {

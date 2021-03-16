@@ -13,7 +13,7 @@ class LanguageFormContent extends Component {
     onDeleteLanguage = (languageIndex, positionFormIndex) => {
         this.props.onDeleteLanguage(languageIndex, positionFormIndex)
     }
-
+// add level
     render() {
         var { item, languageIndex, positionFormIndex, language } = this.props
         var listConverted = convertLanguageList(language)
@@ -32,6 +32,15 @@ class LanguageFormContent extends Component {
                         languageIndex={languageIndex}
                         value={item} />
                 </div>
+                <div className="col-3">
+                    <SelectSearch list={listConverted}
+                        onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
+                        name="level"
+                        positionFormIndex={positionFormIndex}
+                        languageIndex={languageIndex}
+                        value={item} />
+                </div>
+
                 <div className="col-1 mt-15-ml-30">
                     <span className="material-icons pull-right clear" onClick={() => this.onDeleteLanguage(languageIndex, positionFormIndex)}>clear</span>
                 </div>

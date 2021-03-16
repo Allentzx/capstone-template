@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CreatePositionForm from '../../component/create-position-form/CreatePositionForm';
-import ProgressBar from '../../component/progress-bar/ProgressBar';
-import * as Action from "../../service/action/PositionAction";
+import AddUserPosForm from './AddUserPosForm';
+import * as Action from "../../service/action/AddUserAction";
+import { fetchPostionList } from '../../service/action/PositionSelectBarAction';
 
 
-class CreatePosition extends Component {
+class AddUserPos extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             requiredPositions: {
-                posID: "",
+                posID: 0,
                 numberOfCandidates: 0,
                 language: [],
                 softSkillIDs: [],
                 hardSkills: []
             }
         }
+    }
+
+    componentDidMount = () => {
+        // if (localStorage.getItem('projectId') === '0') {
+        //     this.props.history.push('/project/create-project')
+        // } else
+        this.props.fetchPostionList()
     }
 
     // Position
@@ -38,8 +45,8 @@ class CreatePosition extends Component {
     }
 
     //Language
-    onAddLanguage = (positionFormIndex) => {
-        this.props.onAddLanguage(positionFormIndex)
+    onAddLanguage = (positionFormIndex, languageItem) => {
+        this.props.onAddLanguage(positionFormIndex, languageItem)
     }
 
     onDeleteLanguage = (languageIndex, positionFormIndex) => {
@@ -48,6 +55,10 @@ class CreatePosition extends Component {
 
     onUpdateLanguageID = (value, langugageIndex, positionFormIndex) => {
         this.props.onUpdateLanguageID(value, langugageIndex, positionFormIndex)
+    }
+
+    onUpdateLanguagePriority = (value, languageIndex, positionFormIndex) => {
+        this.props.onUpdateLanguagePriority(value, languageIndex, positionFormIndex)
     }
 
     // Soft Skill
@@ -72,8 +83,8 @@ class CreatePosition extends Component {
         this.props.onDeleteHardSkillItem(hardSkillIndex, positionFormIndex)
     }
 
-    updateHardSkillExpPriority = (hardSkillIndex, positionFormIndex, value, name) => {
-        this.props.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name)
+    updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
+        this.props.updateHardSkillExp(hardSkillIndex, positionFormIndex, value, name)
     }
 
     onUpdateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
@@ -84,19 +95,40 @@ class CreatePosition extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
+    onUpdateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
+        this.props.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex)
+    }
+
     onCreatePosition = (event) => {
         event.preventDefault()
         this.props.onCreatePosition(this.props.items)
-        // this.props.history.push("/project/suggest-candidate")
+    }
+
+    getPositionListNotSelect = () => {
+        var { positionList, items } = this.props
+        var listNotSelect = positionList.slice(0, positionList.length)
+        for (let i = 0; i < listNotSelect.length; i++) {
+            for (let k = 0; k < items.length; k++) {
+                if (listNotSelect[i].posID === items[k].posID) {
+                    var clone = { ...listNotSelect[i] }
+                    clone.isSelect = true
+                    listNotSelect[i] = clone
+                }
+            }
+        }
+        return listNotSelect
     }
 
     //For render
     showItems = (items) => {
+        var positionList = this.getPositionListNotSelect()
         var result = null;
         result = items.map((item, positionFormIndex) => {
             return (
-                <CreatePositionForm key={positionFormIndex}
+                <AddUserPosForm
+                    key={positionFormIndex}
                     positionFormIndex={positionFormIndex}
+                    positionList={positionList}
                     item={item} //position object
                     //position
                     onDeletePositionForm={this.onDeletePositionForm}
@@ -106,6 +138,7 @@ class CreatePosition extends Component {
                     onAddLanguage={this.onAddLanguage}
                     onDeleteLanguage={this.onDeleteLanguage}
                     onUpdateLanguageID={this.onUpdateLanguageID}
+                    onUpdateLanguagePriority={this.onUpdateLanguagePriority}
                     //soft skill
                     onAddSoftSkill={this.onAddSoftSkill}
                     onDeleteSoftSkill={this.onDeleteSoftSkill}
@@ -113,9 +146,10 @@ class CreatePosition extends Component {
                     //hard skill
                     onAddHardSkill={this.onAddHardSkill}
                     onDeleteHardSkill={this.onDeleteHardSkill}
-                    updateHardSkillExpPriority={this.updateHardSkillExpPriority}
+                    updateHardSkillExp={this.updateHardSkillExp}
                     onUpdateHardSkillID={this.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.onUpdateHardSkillCerti}
+                    onUpdateHardSkillPriority={this.onUpdateHardSkillPriority}
                 />
             );
         })
@@ -125,18 +159,22 @@ class CreatePosition extends Component {
     render() {
         return (
             <div>
-                <ProgressBar step="step2" />
                 <form onSubmit={this.onCreatePosition} >
                     {this.showItems(this.props.items)}
-                    <div >
-                        <button type="button" className="btn btn-primary" onClick={this.onAddPosition}>
-                            <i className="material-icons mr-5">add_box</i>
-                    More Position
-                    </button>
+                    <div className="row">
+                        <div className="col">
+                            <div >
+                                <button type="button" className="btn btn-primary" style={{fontWeight:700, borderRadius:60, marginLeft:10, background:'#31DF44'}} onClick={this.onAddPosition}>
+                                    <i className="material-icons mr-5">add_box</i>
+                                    More Position
+                                 </button>
+                            </div>
+                        </div>
+                        <div className='col' >
+                            <button type="submit" className="btn btn-primary pull-right" style={{fontWeight:700}}>Create Position</button>
+                        </div>
                     </div>
-                    <div >
-                        <button type="submit" className="btn btn-primary pull-right">Create Position</button>
-                    </div>
+
                 </form>
             </div>
         );
@@ -146,6 +184,7 @@ class CreatePosition extends Component {
 const mapStateToProp = (state) => {
     return {
         items: state.PositionFormReducer,
+        positionList: state.PositionSelectBarReducer
     }
 }
 
@@ -163,14 +202,17 @@ const mapDispatchToProp = (dispatch, props) => {
         onUpdateNOC: (nOC, positionFormIndex) => {
             dispatch(Action.updateNOC(nOC, positionFormIndex))
         },
-        onAddLanguage: (positionFormIndex) => {
-            dispatch(Action.addLanguageRequire(positionFormIndex))
+        onAddLanguage: (positionFormIndex, languageItem) => {
+            dispatch(Action.addLanguageRequire(positionFormIndex, languageItem))
         },
         onDeleteLanguageItem: (languageIndex, positionFormIndex) => {
             dispatch(Action.deleteLanguageRequire(languageIndex, positionFormIndex))
         },
         onUpdateLanguageID: (languageID, languageIndex, positionFormIndex) => {
             dispatch(Action.updateLanguageID(languageID, languageIndex, positionFormIndex))
+        },
+        onUpdateLanguagePriority: (value, languageIndex, positionFormIndex) => {
+            dispatch(Action.updateLanguagePriority(value, languageIndex, positionFormIndex))
         },
         onAddSoftSkillItem: positionFormIndex => {
             dispatch(Action.addSoftSkillRequire(positionFormIndex))
@@ -187,8 +229,11 @@ const mapDispatchToProp = (dispatch, props) => {
         onDeleteHardSkillItem: (hardSkillIndex, positionFormIndex) => {
             dispatch(Action.deleteHardSkillRequire(hardSkillIndex, positionFormIndex))
         },
-        updateHardSkillExpPriority: (hardSkillIndex, positionFormIndex, value, name) => {
-            dispatch(Action.updateHardSkillExpPriority(hardSkillIndex, positionFormIndex, value, name))
+        updateHardSkillExp: (hardSkillIndex, positionFormIndex, value, name) => {
+            dispatch(Action.updateHardSkillExp(hardSkillIndex, positionFormIndex, value, name))
+        },
+        updateHardSkillPriority: (value, hardSkillIndex, positionFormIndex) => {
+            dispatch(Action.updateHardSkillPriority(value, hardSkillIndex, positionFormIndex))
         },
         onUpdateHardSkillID: (value, hardSkillIndex, positionFormIndex) => {
             dispatch(Action.updateHardSkillID(value, hardSkillIndex, positionFormIndex))
@@ -198,8 +243,11 @@ const mapDispatchToProp = (dispatch, props) => {
         },
         onCreatePosition: (positionItem) => {
             dispatch(Action.createPosition(positionItem))
+        },
+        fetchPostionList: () => {
+            dispatch(fetchPostionList())
         }
     }
 }
 
-export default connect(mapStateToProp, mapDispatchToProp)(CreatePosition);
+export default connect(mapStateToProp, mapDispatchToProp)(AddUserPos);

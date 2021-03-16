@@ -5,18 +5,18 @@ const navigation = [
         path: '/',
         exact: true
     },
-    // {
-    //     name: 'Project',
-    //     icon: 'content_paste',
-    //     path: '/project',
-    //     exact: false
-    // },
-    // {
-    //     name: 'Profile',
-    //     icon: 'person',
-    //     path: '/profile',
-    //     exact: true
-    // },
+    {
+        name: 'AddUserPos',
+        icon: 'person',
+        path: '/AddUserPos',
+        exact: true
+    },
+    {
+        name: 'AddUserPosition',
+        icon: 'person',
+        path: '/AddUserPosition',
+        exact: true
+    },
     {
         name: 'Register',
         icon: 'fa fa-registered',

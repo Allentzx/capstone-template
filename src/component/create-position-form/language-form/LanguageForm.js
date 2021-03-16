@@ -9,7 +9,7 @@ class LanguageForm extends Component {
             isMinimize: false
         }
     }
-
+// add level
 
     onAddLanguage = (positionFormIndex) => {
         this.props.onAddLanguage(positionFormIndex)
@@ -25,6 +25,8 @@ class LanguageForm extends Component {
                     onDeleteLanguage={this.props.onDeleteLanguage}
                     item={item}
                     onUpdateLanguageID={this.props.onUpdateLanguageID}
+                    onUpdateLanguageLevel={this.props.onUpdateLanguageLevel}
+
                 />
             );
         })

@@ -3,10 +3,10 @@ body {
     overflow-x: hidden;
     height: 100%;
     background-image: linear-gradient(to right, #D500F9, #FFD54F);
-    background-repeat: no-repeat
+    /* background-repeat: no-repeat */
   }
   
-  input,
+  /* input,
   textarea {
     background-color: #F3E5F5;
     border-radius: 50px !important;
@@ -28,7 +28,7 @@ body {
     border: 1px solid #D500F9 !important;
     outline-width: 0;
     font-weight: 400
-  }
+  } */
   
   button:focus {
     -moz-box-shadow: none !important;
