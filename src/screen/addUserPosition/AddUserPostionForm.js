@@ -48,7 +48,10 @@ class AddUserPostionForm extends Component {
         this.props.onUpdatePositionID(value, positionFormIndex)
     }
 
- 
+    onUpdatePositionLevel = (value, positionFormIndex) => {
+        this.props.onUpdatePositionLevel(value, positionFormIndex)
+    }
+
     setMinimize = () => {
         this.setState({
             isMinimize: !this.state.isMinimize
@@ -59,8 +62,7 @@ class AddUserPostionForm extends Component {
     render() {
         var { item, positionFormIndex, positionList } = this.props
         var listConverted = convertPositionList(positionList)
-        console.log(item)
-        // var listCorvertedLevel = convertLevelList(levelList)
+        var listCorvertedLevel = convertLevelList(levelList)
         const showSkill = () => {
             if (this.state.isMinimize)
                 return ""
@@ -101,7 +103,7 @@ class AddUserPostionForm extends Component {
                             <div className="row">
                                 {/* Position */}
                                 <div className="col-1 mt-15-ml-30">
-                                    <label className="bmd-label  ">
+                                        <label className="bmd-label  ">
                                         <h4 className="font-weight-bold">
                                             Position
                             </h4>
@@ -116,7 +118,6 @@ class AddUserPostionForm extends Component {
                                         name="positionID"
                                         positionFormIndex={positionFormIndex}
                                         value={item.posID}
-                                        
                                     />
                                 </div>
 

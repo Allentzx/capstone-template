@@ -25,6 +25,15 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     }
 }
 
+export const onUpdatePositionLevel = (positionID, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_POSITION_LEVEL,
+        positionFormIndex,
+        positionID
+    }
+}
+
+
 export const updateNOC = (nOC, positionFormIndex) => {
     return {
         type: Type.UPDATE_POSITION_NOC,
@@ -51,6 +60,15 @@ export const deleteLanguageRequire = (languageIndex, positionFormIndex) => {
 export const updateLanguageID = (languageID, languageIndex, positionFormIndex) => {
     return {
         type: Type.UPDATE_LANGUAGE_ID,
+        positionFormIndex,
+        languageIndex,
+        languageID
+    }
+}
+
+export const updateLanguageLevel = (languageID, languageIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_LANGUAGE_LEVEL,
         positionFormIndex,
         languageIndex,
         languageID
@@ -133,6 +151,16 @@ export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex
     }
 }
 
+export const UpdateHardSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_HARD_SKILL_LEVEL,
+        positionFormIndex,
+        hardSkillIndex,
+        value
+    }
+}
+
+
 export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
     return {
         type: Type.UPDATE_HARD_SKILL_CERTI,
@@ -142,34 +170,34 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
     }
 }
 
-// export const createPosition = (positionItem) => {
-//     var projectID = localStorage.getItem("projectId")
-//     var position = { requiredPositions: positionItem }
-//     // var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
-//     // var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
-//     return (dispatch) => {
-//         axios.post(
-//             urlToAddRequire,
-//             position,
-//             { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-//         ).then(res => {
-//             if (res.status === 200) {
-//                 axios.post(
-//                     urlToGetListSuggest,
-//                     position,
-//                     { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
-//                 ).then(res => {
-//                     if (res.status === 200) {
-//                         dispatch(createPositionSuccess(res.data))
-//                         // history.push("/project/suggest-candidate")
-//                         history.push("/")
-//                     }
-//                 })
-//             }
-//         })
-//         // 
-//     }
-// }
+export const createPosition = (positionItem) => {
+    var projectID = localStorage.getItem("projectId")
+    var position = { requiredPositions: positionItem }
+    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
+    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
+    return (dispatch) => {
+        axios.post(
+            urlToAddRequire,
+            position,
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+        ).then(res => {
+            if (res.status === 200) {
+                axios.post(
+                    urlToGetListSuggest,
+                    position,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                ).then(res => {
+                    if (res.status === 200) {
+                        dispatch(createPositionSuccess(res.data))
+                        history.push("/project/suggest-candidate")
+                        // history.push("/")
+                    }
+                })
+            }
+        })
+        // 
+    }
+}
 
 export const createPositionSuccess = (result) => {
     return {

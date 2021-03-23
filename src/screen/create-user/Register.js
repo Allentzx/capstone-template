@@ -115,7 +115,7 @@ class Register extends Component {
                                                         value={identityNumber}
                                                         onChange={this.handleInputChange}
                                                     />
-                                                    {submitted && !email &&
+                                                    {submitted && !identityNumber &&
                                                         <div className="help-block">Email is required</div>
                                                     }
                                                 </div>

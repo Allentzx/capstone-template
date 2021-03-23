@@ -25,6 +25,15 @@ export const updatePositionID = (positionID, positionFormIndex) => {
     }
 }
 
+export const onUpdatePositionLevel = (positionID, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_POSITION_LEVEL,
+        positionFormIndex,
+        positionID
+    }
+}
+
+
 export const updateNOC = (nOC, positionFormIndex) => {
     return {
         type: Type.UPDATE_POSITION_NOC,
@@ -33,10 +42,10 @@ export const updateNOC = (nOC, positionFormIndex) => {
     }
 }
 
-export const addLanguageRequire = (positionFormIndex) => {
+export const addLanguageRequire = (positionFormIndex, languageItem) => {
     return {
         type: Type.ADD_LANGUAGE_REQUIRE,
-        positionFormIndex
+        positionFormIndex, languageItem
     };
 }
 
@@ -50,10 +59,28 @@ export const deleteLanguageRequire = (languageIndex, positionFormIndex) => {
 
 export const updateLanguageID = (languageID, languageIndex, positionFormIndex) => {
     return {
-        type: Type.UPDATE_LANGUAGE,
+        type: Type.UPDATE_LANGUAGE_ID,
         positionFormIndex,
         languageIndex,
         languageID
+    }
+}
+
+export const updateLanguageLevel = (languageID, languageIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_LANGUAGE_LEVEL,
+        positionFormIndex,
+        languageIndex,
+        languageID
+    }
+}
+
+export const updateLanguagePriority = (value, languageIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_LANGUAGE_PRIORITY,
+        positionFormIndex,
+        languageIndex,
+        value
     }
 }
 
@@ -97,9 +124,9 @@ export const deleteHardSkillRequire = (hardSkillIndex, positionFormIndex) => {
     }
 }
 
-export const updateHardSkillExpPriority = (hardSkillIndex, positionFormIndex, value, name) => {
+export const updateHardSkillExp = (hardSkillIndex, positionFormIndex, value, name) => {
     return {
-        type: Type.UPDATE_HARD_SKILL_EXP_PRIORITY,
+        type: Type.UPDATE_HARD_SKILL_EXP,
         positionFormIndex,
         hardSkillIndex,
         value, name
@@ -115,6 +142,25 @@ export const updateHardSkillID = (value, hardSkillIndex, positionFormIndex) => {
     }
 }
 
+export const updateHardSkillPriority = (value, hardSkillIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_HARD_SKILL_PRIORITY,
+        positionFormIndex,
+        hardSkillIndex,
+        value
+    }
+}
+
+export const UpdateHardSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
+    return {
+        type: Type.UPDATE_HARD_SKILL_LEVEL,
+        positionFormIndex,
+        hardSkillIndex,
+        value
+    }
+}
+
+
 export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
     return {
         type: Type.UPDATE_HARD_SKILL_CERTI,
@@ -127,16 +173,29 @@ export const updateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) =
 export const createPosition = (positionItem) => {
     var projectID = localStorage.getItem("projectId")
     var position = { requiredPositions: positionItem }
-    var url = `${API_URL}/Project/addRequirements/${projectID}`
+    var urlToGetListSuggest = `${API_URL}/User/candidate/${projectID}`
+    var urlToAddRequire = `${API_URL}/Project/addRequirements/${projectID} `
     return (dispatch) => {
         axios.post(
-            url,
+            urlToAddRequire,
             position,
-            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")}` } }
+            { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
         ).then(res => {
-            dispatch(createPositionSuccess(res.data.isSuccessed))
-            history.push("/project/suggest-candidate")
+            if (res.status === 200) {
+                axios.post(
+                    urlToGetListSuggest,
+                    position,
+                    { headers: { "Authorization": `Bearer ${localStorage.getItem('token').replace(/"/g, "")} ` } }
+                ).then(res => {
+                    if (res.status === 200) {
+                        dispatch(createPositionSuccess(res.data))
+                        history.push("/project/suggest-candidate")
+                        // history.push("/")
+                    }
+                })
+            }
         })
+        // 
     }
 }
 

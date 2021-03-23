@@ -37,10 +37,9 @@ class AddUserPosition extends Component {
 
     }
 
-    // onUpdateLanguageLevel = (value, langugageIndex, positionFormIndex) => {
-    //     this.props.onUpdateLanguageLevel(value, langugageIndex, positionFormIndex)
-
-    // }
+    onUpdateLanguageLevel = (value, langugageIndex, positionFormIndex) => {
+        this.props.onUpdateLanguageLevel(value, langugageIndex, positionFormIndex)
+    }
 
     // Soft Skill
     onAddSoftSkill = (positionFormIndex) => {
@@ -74,9 +73,9 @@ class AddUserPosition extends Component {
         this.props.onUpdateHardSkillID(value, hardSkillIndex, positionFormIndex)
     }
 
-    // onUpdateHardSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
-    //     this.props.onUpdateHardSkillLevel(value, hardSkillIndex, positionFormIndex)
-    // }
+    onUpdateHardSkillLevel = (value, hardSkillIndex, positionFormIndex) => {
+        this.props.onUpdateHardSkillLevel(value, hardSkillIndex, positionFormIndex)
+    }
 
     onUpdateHardSkillCerti = (value, hardSkillIndex, positionFormIndex) => {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
@@ -86,12 +85,6 @@ class AddUserPosition extends Component {
         event.preventDefault()
         this.props.onCreatePosition(this.props.items)
     }
-
-
-
-    // onUpdateLevel = (value, levelIndex, positionFormIndex) => {
-    //     this.props.onUpdateHardSkillLevel(value, levelIndex, positionFormIndex)
-    // }
 
     getHardSkillListNotSelect = () => {
         var { hardSkillList, items } = this.props
@@ -191,6 +184,7 @@ class AddUserPosition extends Component {
                     onDeleteHardSkill={this.onDeleteHardSkill}
                     onUpdateHardSkillID={this.onUpdateHardSkillID}
                     onUpdateHardSkillCerti={this.onUpdateHardSkillCerti}
+                    onUpdateHardSkillLevel={this.onUpdateHardSkillLevel}
                 />
             );
         })

@@ -39,6 +39,11 @@ class SelectBar extends Component {
         this.props.onUpdateHardSkillCerti(value, hardSkillIndex, positionFormIndex)
     }
 
+    onSelectLanguageLevel = (value) => {
+        var { positionFormIndex, languageIndex } = this.props
+        this.props.onUpdateHardSkillCerti(value, languageIndex, positionFormIndex)
+    }
+
     showDefaultOption = () => {
         var { list } = this.props
         var list = this.getUnSelectedList(list)
@@ -299,6 +304,39 @@ class SelectBar extends Component {
                     showSearch
                     placeholder="Select priority"
                     onSelect={this.onSelectCertificateLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        }
+    }
+
+    showLangLevel = () => {
+        var { value } = this.props
+        if (value === -1) {
+            return (
+                <Select 
+                    style={{ width: 180 }}
+                    showSearch
+                    placeholder="Select language level"
+                    onSelect={this.onSelectLanguageLevelLevel}
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                >
+                    {this.showPriorityOption()}
+                </Select>)
+        } else {
+            return (
+                <Select value={value}                    
+                    style={{ width: 180 }}
+                    showSearch
+                    placeholder="Select priority"
+                    onSelect={this.onSelectLanguageLevel}
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
